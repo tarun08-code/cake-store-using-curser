@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            background-color: #f5f5f5;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .dashboard-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .nav-buttons {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .nav-button {
+            padding: 10px 20px;
+            background-color: #fff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: 500;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+        }
+
+        .nav-button:hover {
+            background-color: #f0f0f0;
+        }
+
+        .nav-button.active {
+            background-color: #4CAF50;
+            color: white;
+        }
+
+        .section {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            display: none;
+        }
+
+        .section.active {
+            display: block;
+        }
+
+        .section h2 {
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        th {
+            background-color: #f8f9fa;
+            font-weight: 600;
+        }
+
+        tr:hover {
+            background-color: #f5f5f5;
+        }
+
+        .status-pending {
+            color: #ffc107;
+        }
+
+        .status-completed {
+            color: #28a745;
+        }
+
+        .status-cancelled {
+            color: #dc3545;
+        }
+
+        .btn {
+            padding: 8px 16px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: background-color 0.3s;
+        }
+
+        .btn-primary {
+            background-color: #007bff;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background-color: #0056b3;
+        }
+
+        .btn-danger {
+            background-color: #dc3545;
+            color: white;
+        }
+
+        .btn-danger:hover {
+            background-color: #c82333;
+        }
+
+        .card-info {
+            background-color: #fff;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 10px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .card-info-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .card-details {
+            padding: 10px;
+            background-color: #f8f9fa;
+            border-radius: 4px;
+            margin-top: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="dashboard-header">
+            <h1>Admin Dashboard</h1>
+            <button class="nav-button" onclick="logout()">Logout</button>
+        </div>
+
+        <div class="nav-buttons">
+            <button class="nav-button active" onclick="showSection('users')">Users</button>
+            <button class="nav-button" onclick="showSection('cakes')">Cakes</button>
+            <button class="nav-button" onclick="showSection('messages')">Messages</button>
+            <button class="nav-button" onclick="showSection('cardInfo')">Card Info</button>
+        </div>
+
+        <div id="users" class="section active">
+            <h2>Users Management</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Email</th>
+                        <th>Joined Date</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody id="usersTableBody"></tbody>
+            </table>
+        </div>
+
+        <div id="cakes" class="section">
+            <h2>Cakes Management</h2>
+            <!-- Cakes section content -->
+        </div>
+
+        <div id="messages" class="section">
+            <h2>Messages</h2>
+            <!-- Messages section content -->
+        </div>
+
+        <div id="cardInfo" class="section">
+            <h2>Card Information</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Email</th>
+                        <th>Card Number</th>
+                        <th>Expiry Date</th>
+                        <th>Last Used</th>
+                    </tr>
+                </thead>
+                <tbody id="cardInfoTableBody"></tbody>
+            </table>
+        </div>
+    </div>
+
+    <script>
+        const token = localStorage.getItem('token');
+        if (!token) {
+            window.location.href = '/login.html';
+        }
+
+        function showSection(sectionId) {
+            // Hide all sections
+            document.querySelectorAll('.section').forEach(section => {
+                section.classList.remove('active');
+            });
+            // Remove active class from all buttons
+            document.querySelectorAll('.nav-button').forEach(button => {
+                button.classList.remove('active');
+            });
+            
+            // Show selected section
+            document.getElementById(sectionId).classList.add('active');
+            // Add active class to clicked button
+            event.target.classList.add('active');
+
+            // Load section data
+            switch(sectionId) {
+                case 'users':
+                    loadUsers();
+                    break;
+                case 'cardInfo':
+                    loadCardInfo();
+                    break;
+                // Add other cases as needed
+            }
+        }
+
+        async function loadUsers() {
+            try {
+                const response = await fetch('/api/admin/users', {
+                    headers: {
+                        'Authorization': `Bearer ${token}`
+                    }
+                });
+                const users = await response.json();
+                const tbody = document.getElementById('usersTableBody');
+                tbody.innerHTML = '';
+
+                users.forEach(user => {
+                    const tr = document.createElement('tr');
+                    tr.innerHTML = `
+                        <td>${user.name}</td>
+                        <td>${user.email}</td>
+                        <td>${new Date(user.createdAt).toLocaleDateString()}</td>
+                        <td>
+                            <button class="nav-button" onclick="editUser('${user._id}')">Edit</button>
+                            <button class="nav-button" onclick="deleteUser('${user._id}')">Delete</button>
+                        </td>
+                    `;
+                    tbody.appendChild(tr);
+                });
+            } catch (error) {
+                console.error('Error loading users:', error);
+                alert('Failed to load users');
+            }
+        }
+
+        async function loadCardInfo() {
+            try {
+                const response = await fetch('/api/admin/card-info', {
+                    headers: {
+                        'Authorization': `Bearer ${token}`
+                    }
+                });
+                const cardInfo = await response.json();
+                const tbody = document.getElementById('cardInfoTableBody');
+                tbody.innerHTML = '';
+
+                if (!cardInfo || cardInfo.length === 0) {
+                    tbody.innerHTML = `
+                        <tr>
+                            <td colspan="5" style="text-align: center;">No card information found</td>
+                        </tr>
+                    `;
+                    return;
+                }
+
+                cardInfo.forEach(info => {
+                    const tr = document.createElement('tr');
+                    tr.innerHTML = `
+                        <td>${info.userName || 'N/A'}</td>
+                        <td>${info.userEmail || 'N/A'}</td>
+                        <td>${info.cardNumber || 'N/A'}</td>
+                        <td>${info.expiryDate || 'N/A'}</td>
+                        <td>${info.lastUsed ? new Date(info.lastUsed).toLocaleString() : 'N/A'}</td>
+                    `;
+                    tbody.appendChild(tr);
+                });
+            } catch (error) {
+                console.error('Error loading card information:', error);
+                alert('Failed to load card information');
+            }
+        }
+
+        function logout() {
+            localStorage.removeItem('token');
+            window.location.href = '/login.html';
+        }
+
+        // Initial load
+        loadUsers();
+    </script>
+</body>
+</html> 
+</html> 

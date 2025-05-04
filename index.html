@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cake and Slice - Cake Store</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <nav>
+                <div class="logo">
+                    <i class="fas fa-birthday-cake"></i>
+                    <span>Cake and Slice</span>
+                </div>
+                <ul class="nav-links">
+                    <li><a href="index.html" class="active">Home</a></li>
+                    <li><a href="cakes.html">Cakes</a></li>
+                    <li><a href="about.html">About</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                    <li class="auth-buttons" id="authButtons">
+                        <a href="login.html" class="login-btn">Login</a>
+                        <a href="signup.html" class="signup-btn">Sign Up</a>
+                    </li>
+                    <li class="user-profile" id="userProfile" style="display: none;">
+                        <div class="profile-dropdown">
+                            <img src="https://via.placeholder.com/30" alt="Profile" class="profile-img">
+                            <span class="profile-name"></span>
+                            <div class="dropdown-content">
+                                <a href="profile.html">My Profile</a>
+                                <a href="orders.html">My Orders</a>
+                                <a href="#" id="logoutBtn">Logout</a>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+            </nav>
+        </header>
+
+        <main>
+            <div class="hero-section">
+                <div class="hero-content">
+                    <h1>Welcome to Cake and Slice</h1>
+                    <p>Indulge in our heavenly collection of handcrafted cakes and desserts</p>
+                    <a href="cakes.html" class="shop-now-btn">Shop Now</a>
+                </div>
+                <div class="hero-image">
+                    <div class="cake-animation">
+                        <div class="cake">
+                            <div class="cake-top"></div>
+                            <div class="cake-bottom"></div>
+                        </div>
+                        <div class="slice">
+                            <div class="slice-top"></div>
+                            <div class="slice-bottom"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <section id="about" class="about-section">
+            <div class="about-container">
+                <h2>About Cake and Slice</h2>
+                <div class="about-content">
+                    <div class="about-text">
+                        <p>Welcome to Cake and Slice, your premier destination for delicious, handcrafted cakes and desserts. We take pride in creating memorable moments through our exquisite range of cakes, made with the finest ingredients and a whole lot of love.</p>
+                        <p>Our team of expert bakers and decorators work tirelessly to bring you the perfect cake for every occasion, from birthdays to weddings and everything in between.</p>
+                    </div>
+                    <div class="contact-details">
+                        <h3>Contact Us</h3>
+                        <div class="contact-info">
+                            <p><i class="fas fa-envelope"></i> Email: info@cakeandslice.com</p>
+                            <p><i class="fas fa-phone"></i> Phone: +91 98765 43210</p>
+                            <p><i class="fas fa-map-marker-alt"></i> Address: 123 Cake Street, Sweet City, India</p>
+                        </div>
+                        <div class="social-links">
+                            <a href="#"><i class="fab fa-facebook"></i></a>
+                            <a href="#"><i class="fab fa-instagram"></i></a>
+                            <a href="#"><i class="fab fa-twitter"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="contact" class="contact-section">
+            <div class="contact-container">
+                <h2>Contact Us</h2>
+                <div class="contact-content">
+                    <div class="contact-info">
+                        <p><i class="fas fa-envelope"></i> Email: info@cakeandslice.com</p>
+                        <p><i class="fas fa-phone"></i> Phone: +91 98765 43210</p>
+                        <p><i class="fas fa-map-marker-alt"></i> Address: 123 Cake Street, Sweet City, India</p>
+                    </div>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-facebook"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html> 

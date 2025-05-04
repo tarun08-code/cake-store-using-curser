@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Order Confirmation - Cake and Slice</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        .confirmation-container {
+            text-align: center;
+            padding: 40px;
+            max-width: 600px;
+            margin: 100px auto;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0,0,0,0.1);
+        }
+
+        .success-icon {
+            color: #4CAF50;
+            font-size: 80px;
+            margin-bottom: 20px;
+        }
+
+        .confirmation-message {
+            margin: 20px 0;
+        }
+
+        .confirmation-message h1 {
+            color: #4CAF50;
+            margin-bottom: 10px;
+        }
+
+        .order-details {
+            margin: 30px 0;
+            padding: 20px;
+            background: #f9f9f9;
+            border-radius: 8px;
+        }
+
+        .continue-shopping {
+            display: inline-block;
+            padding: 12px 30px;
+            background: #4CAF50;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            margin-top: 20px;
+            transition: background 0.3s;
+        }
+
+        .continue-shopping:hover {
+            background: #45a049;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <nav>
+                <div class="logo">
+                    <i class="fas fa-birthday-cake"></i>
+                    <span>Cake and Slice</span>
+                </div>
+                <ul class="nav-links">
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="dashboard.html">Cakes</a></li>
+                    <li><a href="#">About</a></li>
+                    <li><a href="#">Contact</a></li>
+                </ul>
+            </nav>
+        </header>
+
+        <main>
+            <div class="confirmation-container">
+                <i class="fas fa-check-circle success-icon"></i>
+                <div class="confirmation-message">
+                    <h1>Order Placed Successfully!</h1>
+                    <p>Thank you for your purchase. Your order has been confirmed and will be shipped soon.</p>
+                </div>
+                <div class="order-details">
+                    <h3>Order Details</h3>
+                    <p>Order Number: <span id="orderNumber"></span></p>
+                    <p>Estimated Delivery: <span id="deliveryDate"></span></p>
+                </div>
+                <a href="dashboard.html" class="continue-shopping">Continue Shopping</a>
+            </div>
+        </main>
+    </div>
+    <script>
+        // Generate a random order number
+        document.getElementById('orderNumber').textContent = '#' + Math.floor(Math.random() * 1000000);
+        
+        // Set delivery date (3 days from now)
+        const deliveryDate = new Date();
+        deliveryDate.setDate(deliveryDate.getDate() + 3);
+        document.getElementById('deliveryDate').textContent = deliveryDate.toDateString();
+    </script>
+</body>
+</html> 

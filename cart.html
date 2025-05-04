@@ -1,0 +1,637 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shopping Cart - Cake and Slice</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', Arial, sans-serif;
+        }
+
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
+        body {
+            background-color: #fff5f7;
+        }
+
+        .navbar {
+            background: white;
+            padding: 1rem 2rem;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            text-decoration: none;
+        }
+
+        .logo h1 {
+            color: #e91e63;
+            font-size: 1.5rem;
+            font-weight: 600;
+        }
+
+        .logo i {
+            color: #e91e63;
+            font-size: 1.8rem;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: #333;
+            font-weight: 500;
+            font-size: 1.1rem;
+            transition: color 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            color: #e91e63;
+        }
+
+        .cart-container {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 1rem;
+        }
+
+        .cart-title {
+            text-align: center;
+            color: #333;
+            font-size: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .cart-empty {
+            text-align: center;
+            padding: 3rem;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .cart-empty i {
+            font-size: 4rem;
+            color: #e91e63;
+            margin-bottom: 1rem;
+        }
+
+        .cart-empty p {
+            color: #666;
+            margin-bottom: 1rem;
+        }
+
+        .cart-empty .shop-now-btn {
+            display: inline-block;
+            background: #e91e63;
+            color: white;
+            padding: 0.8rem 2rem;
+            border-radius: 25px;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .cart-empty .shop-now-btn:hover {
+            background: #c2185b;
+            transform: translateY(-2px);
+        }
+
+        .cart-items {
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            margin-bottom: 2rem;
+        }
+
+        .cart-item {
+            display: flex;
+            align-items: center;
+            padding: 1.5rem;
+            border-bottom: 1px solid #eee;
+        }
+
+        .cart-item:last-child {
+            border-bottom: none;
+        }
+
+        .item-image {
+            width: 100px;
+            height: 100px;
+            object-fit: cover;
+            border-radius: 8px;
+            margin-right: 1.5rem;
+        }
+
+        .item-details {
+            flex: 1;
+        }
+
+        .item-name {
+            font-size: 1.2rem;
+            color: #333;
+            margin-bottom: 0.5rem;
+        }
+
+        .item-price {
+            color: #e91e63;
+            font-weight: 600;
+            font-size: 1.1rem;
+        }
+
+        .item-quantity {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin: 1rem 0;
+        }
+
+        .quantity-btn {
+            background: #f5f5f5;
+            border: none;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .quantity-btn:hover {
+            background: #e91e63;
+            color: white;
+        }
+
+        .quantity-input {
+            width: 50px;
+            text-align: center;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            padding: 0.3rem;
+        }
+
+        .remove-btn {
+            background: none;
+            border: none;
+            color: #ff4444;
+            cursor: pointer;
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .remove-btn:hover {
+            text-decoration: underline;
+        }
+
+        .cart-summary {
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            padding: 1.5rem;
+        }
+
+        .summary-title {
+            font-size: 1.2rem;
+            color: #333;
+            margin-bottom: 1rem;
+        }
+
+        .summary-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.8rem;
+            color: #666;
+        }
+
+        .summary-total {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 1rem;
+            padding-top: 1rem;
+            border-top: 1px solid #eee;
+            font-weight: 600;
+            color: #333;
+            font-size: 1.2rem;
+        }
+
+        .checkout-btn {
+            display: block;
+            width: 100%;
+            background: #e91e63;
+            color: white;
+            border: none;
+            padding: 1rem;
+            border-radius: 25px;
+            font-size: 1.1rem;
+            font-weight: 500;
+            cursor: pointer;
+            margin-top: 1.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .checkout-btn:hover {
+            background: #c2185b;
+            transform: translateY(-2px);
+        }
+
+        .checkout-btn:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+            transform: none;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <a href="index.html" class="logo">
+            <i class="fas fa-birthday-cake"></i>
+            <h1>Cake and Slice</h1>
+        </a>
+        <ul class="nav-links">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="cakes.html">Cakes</a></li>
+            <li><a href="about.html">About</a></li>
+            <li><a href="contact.html">Contact</a></li>
+        </ul>
+    </nav>
+
+    <div class="cart-container">
+        <h1 class="cart-title">Shopping Cart</h1>
+        
+        <div id="cartContent">
+            <!-- Cart items will be loaded here -->
+        </div>
+    </div>
+
+    <script>
+        async function loadCart() {
+            const cartContent = document.getElementById('cartContent');
+            const token = localStorage.getItem('token');
+
+            if (!token) {
+                cartContent.innerHTML = `
+                    <div class="cart-empty">
+                        <i class="fas fa-user-lock"></i>
+                        <p>Please log in to view your cart</p>
+                        <a href="login.html?redirect=cart.html" class="shop-now-btn">Login</a>
+                    </div>
+                `;
+                return;
+            }
+
+            fetch('http://localhost:3000/api/cart', {
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            })
+            .then(response => {
+                if (!response.ok) throw new Error('Failed to load cart');
+                return response.json();
+            })
+            .then(cart => {
+                if (!cart.items || cart.items.length === 0) {
+                    cartContent.innerHTML = `
+                        <div class="cart-empty">
+                            <i class="fas fa-shopping-cart"></i>
+                            <p>Your cart is empty</p>
+                            <a href="cakes.html" class="shop-now-btn">Shop Now</a>
+                        </div>
+                    `;
+                    return;
+                }
+
+                let cartHTML = '<div class="cart-items">';
+                cart.items.forEach(item => {
+                    cartHTML += `
+                        <div class="cart-item" data-id="${item.productId._id}">
+                            <img src="${item.productId.image}" alt="${item.productId.name}" class="item-image">
+                            <div class="item-details">
+                                <h3 class="item-name">${item.productId.name}</h3>
+                                <p class="item-price">₹${item.price}</p>
+                                <div class="item-quantity">
+                                    <button class="quantity-btn" onclick="updateQuantity('${item.productId._id}', ${item.quantity - 1})">-</button>
+                                    <input type="number" class="quantity-input" value="${item.quantity}" min="1" 
+                                        onchange="if(this.value < 1) this.value=1; updateQuantity('${item.productId._id}', this.value)">
+                                    <button class="quantity-btn" onclick="updateQuantity('${item.productId._id}', ${item.quantity + 1})">+</button>
+                                </div>
+                                <button class="remove-btn" onclick="removeFromCart('${item.productId._id}')">
+                                    <i class="fas fa-trash"></i> Remove
+                                </button>
+                            </div>
+                        </div>
+                    `;
+                });
+
+                cartHTML += '</div>';
+
+                // Add cart summary
+                cartHTML += `
+                    <div class="cart-summary">
+                        <h2 class="summary-title">Order Summary</h2>
+                        <div class="summary-row">
+                            <span>Subtotal</span>
+                            <span>₹${cart.total}</span>
+                        </div>
+                        <div class="summary-row">
+                            <span>Delivery</span>
+                            <span>₹50</span>
+                        </div>
+                        <div class="summary-total">
+                            <span>Total</span>
+                            <span>₹${cart.total + 50}</span>
+                        </div>
+                        <button class="checkout-btn" onclick="proceedToCheckout()">Proceed to Checkout</button>
+                    </div>
+                `;
+
+                cartContent.innerHTML = cartHTML;
+            })
+            .catch(error => {
+                console.error('Error loading cart:', error);
+                cartContent.innerHTML = `
+                    <div class="cart-empty">
+                        <i class="fas fa-exclamation-circle"></i>
+                        <p>Error loading cart. Please try again.</p>
+                        <a href="cakes.html" class="shop-now-btn">Return to Shop</a>
+                    </div>
+                `;
+            });
+        }
+
+        async function updateQuantity(productId, newQuantity) {
+            if (newQuantity < 1) return;
+
+            const token = localStorage.getItem('token');
+            try {
+                // First get the product price
+                const cartResponse = await fetch('http://localhost:3000/api/cart', {
+                    headers: {
+                        'Authorization': `Bearer ${token}`
+                    }
+                });
+                const cart = await cartResponse.json();
+                const item = cart.items.find(item => item.productId._id === productId);
+                
+                if (!item) {
+                    throw new Error('Item not found in cart');
+                }
+
+                // Update quantity
+                const response = await fetch(`http://localhost:3000/api/cart/${productId}`, {
+                    method: 'PUT',
+                    headers: {
+                        'Authorization': `Bearer ${token}`,
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        quantity: parseInt(newQuantity),
+                        price: item.price
+                    })
+                });
+
+                if (!response.ok) {
+                    const errorData = await response.json();
+                    throw new Error(errorData.message || 'Failed to update quantity');
+                }
+
+                // Reload cart to show updated quantities and total
+                await loadCart();
+            } catch (error) {
+                console.error('Error updating quantity:', error);
+                alert('Failed to update quantity. Please try again.');
+            }
+        }
+
+        async function removeFromCart(productId) {
+            if (!confirm('Are you sure you want to remove this item?')) {
+                    return;
+                }
+
+            const token = localStorage.getItem('token');
+            try {
+                const response = await fetch(`http://localhost:3000/api/cart/${productId}`, {
+                    method: 'DELETE',
+                    headers: {
+                        'Authorization': `Bearer ${token}`
+                    }
+                    });
+
+                    if (!response.ok) {
+                    throw new Error('Failed to remove item');
+                }
+
+                loadCart();
+            } catch (error) {
+                console.error('Error removing item:', error);
+                alert('Failed to remove item. Please try again.');
+            }
+        }
+
+        function proceedToCheckout() {
+            const token = localStorage.getItem('token');
+            if (!token) {
+                alert('Please log in to proceed with checkout');
+                window.location.href = 'login.html?redirect=cart.html';
+                return;
+            }
+
+            // Create payment modal
+            const modalHtml = `
+                <div id="paymentModal" style="
+                    position: fixed;
+                    top: 0;
+                    left: 0;
+                    width: 100%;
+                    height: 100%;
+                    background: rgba(0,0,0,0.5);
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    z-index: 1000;
+                ">
+                    <div style="
+                        background: white;
+                        padding: 2rem;
+                        border-radius: 8px;
+                        width: 90%;
+                        max-width: 500px;
+                        box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+                    ">
+                        <h2 style="margin-bottom: 1.5rem; color: #333;">Select Payment Method</h2>
+                        <div style="display: flex; gap: 1rem; margin-bottom: 2rem;">
+                            <button onclick="selectPayment('cash')" style="
+                                flex: 1;
+                                padding: 1rem;
+                                border: 2px solid #e91e63;
+                                background: white;
+                                color: #e91e63;
+                                border-radius: 25px;
+                                cursor: pointer;
+                                font-weight: 500;
+                                transition: all 0.3s ease;
+                            ">Cash on Delivery</button>
+                            <button onclick="selectPayment('card')" style="
+                                flex: 1;
+                                padding: 1rem;
+                                border: none;
+                                background: #e91e63;
+                                color: white;
+                                border-radius: 25px;
+                                cursor: pointer;
+                                font-weight: 500;
+                                transition: all 0.3s ease;
+                            ">Pay with Card</button>
+                        </div>
+                        <div id="cardDetails" style="display: none;">
+                            <div style="margin-bottom: 1rem;">
+                                <label style="display: block; margin-bottom: 0.5rem;">Card Number</label>
+                                <input type="text" id="cardNumber" placeholder="1234 5678 9012 3456" style="
+                                    width: 100%;
+                                    padding: 0.8rem;
+                                    border: 1px solid #ddd;
+                                    border-radius: 4px;
+                                ">
+                            </div>
+                            <div style="display: flex; gap: 1rem; margin-bottom: 1.5rem;">
+                                <div style="flex: 1;">
+                                    <label style="display: block; margin-bottom: 0.5rem;">Expiry Date</label>
+                                    <input type="text" id="expiryDate" placeholder="MM/YY" style="
+                                        width: 100%;
+                                        padding: 0.8rem;
+                                        border: 1px solid #ddd;
+                                        border-radius: 4px;
+                                    ">
+                                </div>
+                                <div style="flex: 1;">
+                                    <label style="display: block; margin-bottom: 0.5rem;">CVV</label>
+                                    <input type="text" id="cvv" placeholder="123" style="
+                                        width: 100%;
+                                        padding: 0.8rem;
+                                        border: 1px solid #ddd;
+                                        border-radius: 4px;
+                                    ">
+                                </div>
+                            </div>
+                            <button onclick="processCardPayment()" style="
+                                width: 100%;
+                                padding: 1rem;
+                                background: #e91e63;
+                                color: white;
+                                border: none;
+                                border-radius: 25px;
+                                font-weight: 500;
+                                cursor: pointer;
+                            ">Pay Now</button>
+                        </div>
+                    </div>
+                </div>
+            `;
+
+            document.body.insertAdjacentHTML('beforeend', modalHtml);
+        }
+
+        function selectPayment(method) {
+            if (method === 'cash') {
+                // Process cash on delivery
+                alert('Order Confirmed! Your order will be delivered soon.');
+                completeOrder('cash');
+            } else {
+                // Show card details form
+                document.getElementById('cardDetails').style.display = 'block';
+            }
+        }
+
+        function processCardPayment() {
+            const cardNumber = document.getElementById('cardNumber').value;
+            const expiryDate = document.getElementById('expiryDate').value;
+            const cvv = document.getElementById('cvv').value;
+
+            // Basic validation
+            if (!cardNumber || !expiryDate || !cvv) {
+                alert('Please fill in all card details');
+                return;
+            }
+
+            // Simulate card processing
+            alert('Payment Successful! Your order will be delivered soon.');
+            completeOrder('card');
+        }
+
+        async function completeOrder(paymentMethod) {
+            const token = localStorage.getItem('token');
+            try {
+                // Get current cart
+                const cartResponse = await fetch('http://localhost:3000/api/cart', {
+                    headers: {
+                        'Authorization': `Bearer ${token}`
+                    }
+                });
+                const cart = await cartResponse.json();
+
+                // Create order
+                const orderResponse = await fetch('http://localhost:3000/api/orders', {
+                    method: 'POST',
+                    headers: {
+                        'Authorization': `Bearer ${token}`,
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        items: cart.items,
+                        total: cart.total,
+                        paymentMethod: paymentMethod
+                    })
+                });
+
+                if (!orderResponse.ok) {
+                    throw new Error('Failed to create order');
+                }
+
+                // Remove payment modal
+                const modal = document.getElementById('paymentModal');
+                if (modal) modal.remove();
+                
+                // Show success message and redirect
+                alert('Order Confirmed! Your order will be delivered soon.');
+                window.location.href = 'cakes.html'; // Redirect to cakes page
+            } catch (error) {
+                console.error('Error completing order:', error);
+                alert('Failed to complete order. Please try again.');
+            }
+        }
+
+        // Load cart when page loads
+        document.addEventListener('DOMContentLoaded', () => {
+            const token = localStorage.getItem('token');
+            if (!token) {
+                document.getElementById('cartContent').innerHTML = `
+                    <div class="cart-empty">
+                        <i class="fas fa-user-lock"></i>
+                        <p>Please log in to view your cart</p>
+                        <a href="login.html?redirect=cart.html" class="shop-now-btn">Login</a>
+                    </div>
+                `;
+                return;
+            }
+
+            loadCart();
+        });
+    </script>
+</body>
+</html> 
