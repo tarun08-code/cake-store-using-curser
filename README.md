@@ -150,7 +150,7 @@ Just open `frontend/index.html` in your browser.
 Or serve it using Live Server (VS Code extension) for a better experience.
 
 ---
-Note - keep the <node server.js> running in terminal always while using website
+Note - keep the (node server.js) running in terminal always while using website
 
 Admin login - admin@cakestore.com 
               Admin@123
