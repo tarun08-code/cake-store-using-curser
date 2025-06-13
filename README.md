@@ -1,3 +1,5 @@
+Video demonstration - https://drive.google.com/drive/folders/1Tnb1AnmHiBnQQDaa5Ra-bfkErtGC6_zu?usp=sharing
+
 🍰 Cake Store Management System
 This is a full-stack web application for managing a cake store — from product listings to order management — built under some... unique circumstances. 😅
 
